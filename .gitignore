@@ -1,0 +1,16 @@
+# ===== SEGURANÇA: NUNCA subir chaves privadas para o GitHub =====
+*.pem
+*.key
+*.ppk
+id_rsa
+id_rsa.pub
+
+# Credenciais e variáveis de ambiente
+.env
+.env.*
+*.env
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
