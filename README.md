@@ -103,12 +103,16 @@ DB subnet group: projeto-db-subnet-group (privada + privada-2)
 
 > 🔒 **Credenciais:** a senha do usuário `postgres` **não** está documentada aqui por segurança. Guarde-a em um gerenciador de senhas — será necessária na etapa do EC2.
 
-### 3.6 EC2 e Key pair (em andamento)
+### 3.6 EC2 e Key pair
 
 | Item | Valor |
 |---|---|
 | Key pair | `projeto-keypair` (RSA, `.pem` salvo localmente) |
-| Instância EC2 | `projeto-bastion` — **a criar** (Etapa 4.3) |
+| Instância EC2 | `projeto-bastion` (Amazon Linux 2023, `t2.micro`) |
+| Subnet | `projeto-subnet-publica` (`10.0.1.0/24`) — `sa-east-1a` |
+| IP Privado | `10.0.1.222` |
+| IP Público | `18.230.24.106` |
+| Security group | `projeto-sg-ec2` (SSH liberado) |
 
 ---
 
@@ -134,14 +138,15 @@ DB subnet group: projeto-db-subnet-group (privada + privada-2)
 
 **Conceitos:** banco gerenciado (RDS), DB subnet group, exigência de cobertura de 2 AZs, Single-AZ vs Multi-AZ.
 
-### 🚧 Etapa 4 — EC2 (bastion) [em andamento]
-- ✅ Criado o Security Group `projeto-sg-ec2` (SSH liberado só do `My IP`).
-- ✅ Criada a key pair `projeto-keypair` (arquivo `.pem` salvo localmente).
-- ⏳ Pendente (4.3): criar a instância `projeto-bastion` na subnet pública.
-- ⏳ Pendente (4.4): conectar via SSH a partir do Windows.
-- ⏳ Pendente (4.5): instalar o cliente PostgreSQL e conectar no RDS.
+### ✅ Etapa 4 — EC2 (bastion) e Validação de Conectividade
+- Criação do Security Group `projeto-sg-ec2` (SSH liberado para o IP de origem).
+- Criação do key pair `projeto-keypair` (arquivo `.pem` salvo localmente e protegido com `icacls`).
+- Provisionamento da instância EC2 `projeto-bastion` na `projeto-subnet-publica` com IP público.
+- Conexão remota bem-sucedida via SSH a partir do Windows PowerShell.
+- Instalação do cliente PostgreSQL (`postgresql15`) via gerenciador de pacotes `dnf`.
+- **Validação de comunicação de rede privada:** Conexão autenticada com sucesso no RDS PostgreSQL através do endpoint interno da VPC (`psql -h projeto-db... -U postgres -d postgres`), confirmando o isolamento do banco e a funcionalidade do Bastion Host.
 
-**Conceitos:** EC2, AMI, key pair (acesso SSH), bastion/jump host.
+**Conceitos:** EC2, AMI, key pair (acesso SSH seguro), bastion/jump host, resolução de DNS interna da VPC, comunicação inter-subnets.
 
 ---
 
@@ -157,6 +162,7 @@ DB subnet group: projeto-db-subnet-group (privada + privada-2)
 | **DB subnet group** | Conjunto de subnets onde o RDS pode ser criado; exige ≥ 2 AZs. |
 | **Single-AZ vs Multi-AZ** | Single-AZ = 1 instância (free tier); Multi-AZ = redundância (pago). |
 | **RDS** | Banco gerenciado (AWS cuida de patch, backup, failover). |
+| **Bastion Host** | Servidor de salto seguro na rede pública usado como ponte para administrar recursos em redes privadas. |
 
 ---
 
@@ -167,6 +173,7 @@ Dentro do free tier (12 meses, contas novas):
 - ✅ VPC, subnets, route tables, Internet Gateway — **grátis**.
 - ✅ Security Groups — **grátis**.
 - ✅ RDS `db.t4g.micro`/`db.t3.micro` Single-AZ — **750h/mês grátis**.
+- ✅ EC2 `t2.micro`/`t3.micro` — **750h/mês grátis**.
 - ✅ 20 GB de storage + 20 GB de backup — **grátis**.
 
 **Evitamos de propósito (cobram):**
@@ -181,9 +188,9 @@ Dentro do free tier (12 meses, contas novas):
 
 ## 7. Próximos passos
 
-- [ ] **Etapa 4.3 — Criar a instância EC2** `projeto-bastion` na subnet pública (Amazon Linux 2023, `t2.micro`, key pair `projeto-keypair`, SG `projeto-sg-ec2`).
-- [ ] **Etapa 4.4 — Conectar via SSH** a partir do Windows usando o `.pem`.
-- [ ] **Etapa 4.5 — Instalar o cliente PostgreSQL** no EC2 e conectar no RDS `projetodb`.
+- [x] **Etapa 4.3 — Criar a instância EC2** `projeto-bastion` na subnet pública.
+- [x] **Etapa 4.4 — Conectar via SSH** a partir do Windows usando o `.pem`.
+- [x] **Etapa 4.5 — Instalar o cliente PostgreSQL** no EC2 e conectar no RDS.
 - [ ] **Etapa 5 — Migração do RDS para EC2:** (planejado) hospedar o PostgreSQL em uma instância EC2.
 - [ ] **Etapa final — Limpeza (cleanup):** apagar todos os recursos para não gerar custo.
 
@@ -193,7 +200,7 @@ Dentro do free tier (12 meses, contas novas):
 
 Quando o projeto terminar, apague na seguinte ordem:
 
-1. EC2 `projeto-bastion` (se criado): **Terminate instance**.
+1. EC2 `projeto-bastion`: **Terminate instance** (ou **Stop** se for continuar em outro momento).
 2. RDS `projeto-db` (confirme que *deletion protection* está desativado).
 3. DB subnet group `projeto-db-subnet-group`.
 4. Security Groups `projeto-sg-rds` e `projeto-sg-ec2`.
@@ -206,4 +213,4 @@ Quando o projeto terminar, apague na seguinte ordem:
 
 ---
 
-*Última atualização: Etapa 4 em andamento — SG do EC2 e key pair criados; instância EC2 pendente (4.3).*
+*Última atualização: Etapa 4 concluída com sucesso — Conexão validada entre EC2 Bastion e RDS PostgreSQL.*
