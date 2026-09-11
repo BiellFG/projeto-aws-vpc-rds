@@ -57,7 +57,7 @@ DB subnet group: projeto-db-subnet-group (privada + privada-2)
 
 | Recurso | Nome | Detalhes |
 |---|---|---|
-| VPC | `projeto-vpc` | CIDR `10.0.0.0/16` · ID `vpc-0e9d58ebaeaec3db5` |
+| VPC | `projeto-vpc` | CIDR `10.0.0.0/16` · ID `vpc-0xxxxxxxxxxxxxxxxx` |
 | Internet Gateway | `projeto-igw` | Anexado à `projeto-vpc` |
 
 ### 3.2 Subnets
@@ -99,7 +99,7 @@ DB subnet group: projeto-db-subnet-group (privada + privada-2)
 | Initial database name | `projetodb` |
 | Master username | `postgres` |
 | Deletion protection | Desativado |
-| Endpoint | `projeto-db.cti6i6k0kvn7.sa-east-1.rds.amazonaws.com` |
+| Endpoint | `projeto-db.xxxxxx.sa-east-1.rds.amazonaws.com` |
 
 > 🔒 **Credenciais:** a senha do usuário `postgres` **não** está documentada aqui por segurança. Guarde-a em um gerenciador de senhas — será necessária na etapa do EC2.
 
@@ -111,7 +111,7 @@ DB subnet group: projeto-db-subnet-group (privada + privada-2)
 | Instância EC2 | `projeto-bastion` (Amazon Linux 2023, `t2.micro`) |
 | Subnet | `projeto-subnet-publica` (`10.0.1.0/24`) — `sa-east-1a` |
 | IP Privado | `10.0.1.222` |
-| IP Público | `18.230.24.106` |
+| IP Público | `18.230.xx.xxx (dinâmico)` |
 | Security group | `projeto-sg-ec2` (SSH liberado) |
 
 ---

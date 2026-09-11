@@ -44,7 +44,7 @@
         </mxCell>
 
         <!-- EC2 INSTANCE -->
-        <mxCell id="ec2_bastion" value="EC2: projeto-bastion&#xa;(Amazon Linux 2023 · t2.micro)&#xa;IP Privado: 10.0.1.222&#xa;IP Público: 18.230.24.106&#xa;Key: projeto-keypair.pem" style="shape=mxgraph.aws4.ec2;verticalAlign=bottom;align=center;html=1;fontSize=11;fontStyle=1;fillColor=#ED7100;strokeColor=none;fontColor=#232F3E;spacingTop=5;" vertex="1" parent="sg_ec2">
+        <mxCell id="ec2_bastion" value="EC2: projeto-bastion&#xa;(Amazon Linux 2023 · t2.micro)&#xa;IP Privado: 10.0.1.222&#xa;IP Público: 18.230.xx.xxx&#xa;Key: projeto-keypair.pem" style="shape=mxgraph.aws4.ec2;verticalAlign=bottom;align=center;html=1;fontSize=11;fontStyle=1;fillColor=#ED7100;strokeColor=none;fontColor=#232F3E;spacingTop=5;" vertex="1" parent="sg_ec2">
           <mxGeometry x="90" y="45" width="160" height="120" as="geometry" />
         </mxCell>
 
@@ -72,7 +72,7 @@
         </mxCell>
 
         <!-- RDS POSTGRESQL -->
-        <mxCell id="rds_db" value="RDS PostgreSQL: projeto-db&#xa;(Engine: Postgres 15/16 · db.t4g/t3.micro)&#xa;Acesso Público: NÃO&#xa;Endpoint: projeto-db.cti6i6k0kvn7...&#xa;IP Privado interno: 10.0.0.218&#xa;Banco: postgres / projetodb" style="shape=mxgraph.aws4.rds_instance;verticalAlign=bottom;align=center;html=1;fontSize=11;fontStyle=1;fillColor=#2E73B8;strokeColor=none;fontColor=#232F3E;spacingTop=5;" vertex="1" parent="sg_rds">
+        <mxCell id="rds_db" value="RDS PostgreSQL: projeto-db&#xa;(Engine: Postgres 15/16 · db.t4g/t3.micro)&#xa;Acesso Público: NÃO&#xa;Endpoint: projeto-db.xxxxxx.sa-east-1...&#xa;IP Privado interno: 10.0.0.218&#xa;Banco: postgres / projetodb" style="shape=mxgraph.aws4.rds_instance;verticalAlign=bottom;align=center;html=1;fontSize=11;fontStyle=1;fillColor=#2E73B8;strokeColor=none;fontColor=#232F3E;spacingTop=5;" vertex="1" parent="sg_rds">
           <mxGeometry x="85" y="70" width="170" height="180" as="geometry" />
         </mxCell>
 
@@ -86,7 +86,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
-        <mxCell id="flow_ssh_2" value="2. Roteamento via IGW&#xa;para IP Público 18.230.24.106" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#ED7100;strokeWidth=3;fontSize=11;fontStyle=1;fontColor=#ED7100;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="igw" target="ec2_bastion">
+        <mxCell id="flow_ssh_2" value="2. Roteamento via IGW&#xa;para IP Público 18.230.xx.xxx" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#ED7100;strokeWidth=3;fontSize=11;fontStyle=1;fontColor=#ED7100;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="igw" target="ec2_bastion">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
 
